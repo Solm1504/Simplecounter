@@ -1,26 +1,48 @@
-import React from "react";
+import React, { useState } from 'react';
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+function Contador() {
+  const [segundos, setSegundos] = useState(0);
+  const [tiempoAgotado, setTiempoAgotado] = useState(false);
 
-//create your first component
-const Home = () => {
-	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
-	);
-};
+  const incrementarSegundos = () => {
+    setSegundos(segundos + 1);
+  };
 
-export default Home;
+  setInterval(incrementarSegundos, 1000);
+
+  const alertarTiempoAgotado = () => {
+    setTiempoAgotado(true);
+  };
+
+  setTimeout(alertarTiempoAgotado, 4000);
+
+  return (
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{
+        backgroundImage: `url('https://img.freepik.com/fotos-premium/muchos-relojes-diferentes_127657-3712.jpg')`,
+        backgroundSize: 'cover',
+        height: '100vh',
+        width: '100vw'
+      }}
+    >
+      <div className="bg-light border rounded p-3">
+        <div className="row">
+          <div className="col align-self-start text-primary h3">
+            Don't waste your time! 
+          </div>
+          <div className="col align-self-center text-center">
+            <p className="display-1"> {segundos}</p>
+          </div>
+          <div className="col align-self-end">
+            {tiempoAgotado && (
+              <p className="text-danger h4">Make it count!</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Contador;
