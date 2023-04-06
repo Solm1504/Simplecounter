@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Contador() {
   const [segundos, setSegundos] = useState(0);
   const [tiempoAgotado, setTiempoAgotado] = useState(false);
 
-  const incrementarSegundos = () => {
-    setSegundos(segundos + 1);
-  };
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setSegundos(segundos => segundos + 1);
+    }, 1000);
 
-  setInterval(incrementarSegundos, 1000);
+    setTimeout(() => {
+      setTiempoAgotado(true);
+    }, 4000);
 
-  const alertarTiempoAgotado = () => {
-    setTiempoAgotado(true);
-  };
-
-  setTimeout(alertarTiempoAgotado, 4000);
+    return () => clearInterval(intervalo);
+  }, []);
 
   return (
     <div
@@ -32,7 +32,7 @@ function Contador() {
             Don't waste your time! 
           </div>
           <div className="col align-self-center text-center">
-            <p className="display-1"> {segundos}</p>
+            <p className="display-1">{segundos}</p>
           </div>
           <div className="col align-self-end">
             {tiempoAgotado && (
