@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from 'react';
 
 function Contador() {
-  const [segundos, setSegundos] = useState(0);
-  const [tiempoAgotado, setTiempoAgotado] = useState(false);
+  const [centenas, setCentenas] = useState(0);
+  const [decenas, setDecenas] = useState(0);
+  const [unidades, setUnidades] = useState(0);
 
   useEffect(() => {
     const intervalo = setInterval(() => {
-      setSegundos(segundos => segundos + 1);
+      setUnidades(unidades => {
+        if (unidades === 9) {
+          setDecenas(decenas => {
+            if (decenas === 9) {
+              setCentenas(centenas => centenas + 1);
+              return 0;
+            }
+            return decenas + 1;
+          });
+          return 0;
+        }
+        return unidades + 1;
+      });
     }, 1000);
-
-    setTimeout(() => {
-      setTiempoAgotado(true);
-    }, 4000);
 
     return () => clearInterval(intervalo);
   }, []);
@@ -32,10 +41,10 @@ function Contador() {
             Don't waste your time! 
           </div>
           <div className="col align-self-center text-center">
-            <p className="display-1">{segundos}</p>
+            <p className="display-1">{centenas}{decenas}{unidades}</p>
           </div>
           <div className="col align-self-end">
-            {tiempoAgotado && (
+            {(centenas > 0 || decenas > 0 || unidades > 9) && (
               <p className="text-danger h4">Make it count!</p>
             )}
           </div>
